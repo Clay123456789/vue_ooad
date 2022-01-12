@@ -5,9 +5,6 @@
       <img :src="imgSrc" width="100%" height="100%" alt=""/>
     </div>
     <div>
-      <a class="header link" style="float: left" href="/student/home">登录</a>
-    </div>
-    <div>
       <el-form :model="LoginForm" status-icon :rules="rules" ref="LoginForm" label-width="50px"
                class="registerContainer">
         <h3 class="LoginTitle">登录</h3>
@@ -32,7 +29,7 @@
 </template>
 <script>
 
-import {postRequest} from "@/utils/axiosApi";
+import {postLogin} from "@/utils/axiosApi";
 
 export default {
   name: "Student_Login",
@@ -74,14 +71,15 @@ export default {
     submitForm(LoginForm) {
       this.$refs.LoginForm.validate((valid) => {
         if (valid) {
-          postRequest('/user/login', this.LoginForm.user, this.LoginForm.pass).then(resp => {
-            resp.data = undefined;
+          postLogin(this.LoginForm.user,this.LoginForm.pass,0).then(resp => {
             if (resp) {
               //存储token
               const tokenStr = resp.data;
               window.sessionStorage.setItem('tokenStr', tokenStr);
-              //跳转
+              localStorage.setItem("uid",this.LoginForm.user);
               this.$router.replace('/student/home');
+              //跳转
+
             }
           });
         } else {

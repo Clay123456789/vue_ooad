@@ -5,36 +5,37 @@
       <img :src="imgSrc" width="100%" height="100%" alt=""/>
     </div>
     <div>
-      <a class="header link" style="float: left" href="/student/home">登录</a>
-      <a class="header link" style="float: left" href="/student/register">注册</a>
+      <a class="header link" style="float: left" href="/staff/home">登录</a>
     </div>
     <div>
-      <el-form :model="LoginForm" status-icon :rules="rules" ref="LoginForm" label-width="80px"
+      <el-form :model="LoginForm" status-icon :rules="rules" ref="LoginForm" label-width="50px"
                class="registerContainer">
         <h3 class="LoginTitle">登录</h3>
-        <el-form-item style="width: 350px;" label="账户" prop="user">
+        <el-form-item  label="账户" prop="user">
           <el-input type="user" v-model="LoginForm.user" placeholder="请输入用户名或邮箱" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item style="width: 350px;" label="密码" prop="pass">
+        <el-form-item  label="密码" prop="pass">
           <el-input type="password" v-model="LoginForm.pass" placeholder="请输入密码" autocomplete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button style="width: 100px;" type="primary" @click="submitForm('LoginForm')">登录</el-button>
-          <el-button style="margin-left:50px; width: 100px" @click="resetForm('registerForm')">注册</el-button>
+          <el-link :underline="false" style=" float: left" class="header link" href="/staff/register">
+            注册
+          </el-link>
+          <el-link :underline="false" style=" float: right" class="header link" href="/staff/FindPW">
+            忘记密码
+          </el-link>
+          <el-button style="width: 100%;" type="primary" @click="submitForm('LoginForm')">登录</el-button>
         </el-form-item>
-        <el-link :underline="false" style="margin-bottom:20px; float: right" class="header link" href="/student/FindPW">
-          忘记密码
-        </el-link>
       </el-form>
     </div>
   </div>
 </template>
 <script>
 
-import {postRequest} from "@/utils/axiosApi";
+import {postLogin} from "@/utils/axiosApi";
 
 export default {
-  name: "Staff_Login",
+  name: "Student_Login",
   components: {},
   data() {
     var validateUser = (rule, value, callback) => {
@@ -55,8 +56,8 @@ export default {
 
     return {
       LoginForm: {
-        user: 'admin',
-        pass: '123',
+        user: '',
+        pass: '',
       },
       rules: {
         user: [
@@ -73,24 +74,23 @@ export default {
     submitForm(LoginForm) {
       this.$refs.LoginForm.validate((valid) => {
         if (valid) {
-          postRequest('/user/login', this.LoginForm.user, this.LoginForm.pass).then(resp => {
-            resp.data = undefined;
+          postLogin(this.LoginForm.user,this.LoginForm.pass,1).then(resp => {
             if (resp) {
               //存储token
-              const tokenStr =resp.data;
-              window.sessionStorage.setItem('tokenStr',tokenStr);
-              //跳转
+              const tokenStr = resp.data;
+              window.sessionStorage.setItem('tokenStr', tokenStr);
+              localStorage.setItem("uid",this.LoginForm.user);
               this.$router.replace('/staff/home');
+              //跳转
+
             }
           });
-        }
-        else
-        {
+        } else {
           this.$message.error('错误');
           return false;
         }
       });
-    }
+    },
   }
 };
 </script>
@@ -100,7 +100,7 @@ export default {
   border-radius: 15px;
   background-clip: padding-box;
   margin: 100px 600px auto;
-  width: 400px;
+  width: 350px;
   padding: 5px 15px 5px 15px;
   background: rgba(255, 255, 255, 0.8);
   border: 1px solid rgba(109, 101, 101, 0.8);

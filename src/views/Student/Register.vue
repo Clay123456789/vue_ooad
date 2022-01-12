@@ -8,8 +8,8 @@
       <el-form :model="registerForm" status-icon :rules="rules" ref="registerForm" label-width="70px"
                class="registerContainer">
         <h3 class="registerTitle">注册</h3>
-        <el-form-item  label="用户名" prop="username">
-          <el-input type="text" v-model="registerForm.username" placeholder="请输入用户名" ></el-input>
+        <el-form-item  label="用户名" prop="account">
+          <el-input type="text" v-model="registerForm.account" placeholder="请输入用户名" ></el-input>
         </el-form-item>
         <el-form-item  label="邮箱" prop="email">
           <el-input type="text" v-model="registerForm.email" placeholder="请输入邮箱" ></el-input>
@@ -19,8 +19,36 @@
           </el-input>
           <el-button style=" width: 50px" type="text" @click="codeForm('registerForm')">获取验证码</el-button>
         </el-form-item>
-        <el-form-item  label="密码" prop="pass">
-          <el-input type="password" v-model="registerForm.pass" placeholder="请输入密码" ></el-input>
+      </el-form>
+    </div>
+    <div>
+      <el-form :model="registerForm" status-icon :rules="rules" ref="registerForm" label-width="70px"
+               class="registerContainer1">
+        <el-form-item  label="学号" prop="studentid">
+          <el-input type="text" v-model="registerForm.studentid" placeholder="请输入学号" ></el-input>
+        </el-form-item>
+        <el-form-item  label="姓名" prop="stu_name">
+          <el-input type="text" v-model="registerForm.stu_name" placeholder="请输入姓名" ></el-input>
+        </el-form-item>
+        <el-form-item label="性别" prop="sex">
+          <el-select v-model="registerForm.sex" placeholder="性别">
+            <el-option label="男" value="male"></el-option>
+            <el-option label="女" value="female"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="年级" prop="grade">
+        <el-select v-model="registerForm.grade" placeholder="年级">
+          <el-option label="大一" value="大一"></el-option>
+          <el-option label="大二" value="大二"></el-option>
+          <el-option label="大三" value="大三"></el-option>
+          <el-option label="大四" value="大四"></el-option>
+          <el-option label="研一" value="研一"></el-option>
+          <el-option label="研二" value="研二"></el-option>
+          <el-option label="研三" value="研三"></el-option>
+        </el-select>
+        </el-form-item>
+        <el-form-item  label="密码" prop="password">
+          <el-input type="password" v-model="registerForm.password" placeholder="请输入密码" ></el-input>
         </el-form-item>
         <el-form-item  label="确认密码" prop="checkPass">
           <el-input type="password" v-model="registerForm.checkPass" placeholder="请确认密码" ></el-input>
@@ -39,10 +67,10 @@
 
 <script>
 
-import {postRequest} from "@/utils/axiosApi";
+import {postEmail, postRegister, postRequest} from "@/utils/axiosApi";
 
 export default {
-  name: "Student_Register",
+  name: "student_Register",
   components: {},
   data() {
 
@@ -67,6 +95,20 @@ export default {
         callback();
       }
     };
+    var validateSid = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('学号不能为空'));
+      } else {
+        callback();
+      }
+    };
+    var validateSname = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('姓名不能为空'));
+      } else {
+        callback();
+      }
+    };
     var validateCode = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('验证码不能为空'));
@@ -74,6 +116,20 @@ export default {
         callback();
       }
     };
+    var validateSex = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('性别不能为空'));
+      } else {
+        callback();
+      }
+    };var validateGrade = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('年级不能为空'));
+      } else {
+        callback();
+      }
+    };
+
     var validatePass = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请输入密码'));
@@ -87,7 +143,7 @@ export default {
     var validatePass2 = (rule, value, callback) => {
       if (value === '') {
         callback(new Error('请再次输入密码'));
-      } else if (value !== this.registerForm.pass) {
+      } else if (value !== this.registerForm.password) {
         callback(new Error('两次输入密码不一致!'));
       } else {
         callback();
@@ -95,14 +151,38 @@ export default {
     };
     return {
       registerForm: {
-        username: '',
-        email: '',
-        pass: '',
-        checkPass: '',
-        code: '',
+        email:"",
+        whichpeople: "",
+        account:"",
+        password:"",
+        code:"",
+        studentid:"",
+        stu_name:"",
+        sex:"",
+        grade:"",
+        college:"信通",
+        class_:"2019211505",
+        tutor_name:"辅导员",
+        dormitory:"学六",
+        nativeplace:"青海",
+        address:"XXX",
+        phone:"19814200063",
+        checkPass: ""
       },
       rules: {
-        username: [
+        sex: [
+          {validator: validateSex, trigger: 'blur'}
+        ],
+        grade: [
+          {validator: validateGrade, trigger: 'blur'}
+        ],
+        studentid: [
+          {validator: validateSid, trigger: 'blur'}
+        ],
+        stu_name: [
+          {validator: validateSname, trigger: 'blur'}
+        ],
+        account: [
           {validator: validateUid, trigger: 'blur'}
         ],
         code: [
@@ -111,7 +191,7 @@ export default {
         email: [
           {validator: validateEmail, trigger: 'blur'}
         ],
-        pass: [
+        password: [
           {validator: validatePass, trigger: 'blur'}
         ],
         checkPass: [
@@ -124,8 +204,9 @@ export default {
   methods: {
     codeForm(registerForm) {
       this.$refs.registerForm.validate((valid) => {
-        if (valid) {
-          postRequest('/user/sendRegisterEmail',this.registerForm.email).then(resp => {
+        const reg = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+.[a-z]+.[a-z]*$/;
+        if (reg.test(this.registerForm.email)) {
+          postEmail(this.registerForm.email,0).then(resp => {
             if (resp) {
               alert('验证码发送成功');
             }
@@ -139,14 +220,14 @@ export default {
     submitForm(registerForm) {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          postRequest('/user/regist',this.registerForm.username, this.registerForm.email, this.registerForm.pass,this.registerForm.code).then(resp => {
-            resp.data = undefined;
+          postRegister(this.registerForm.email,0,this.registerForm.account,this.registerForm.password
+          ,this.registerForm.code,this.registerForm.studentid,this.registerForm.stu_name,this.registerForm.sex,this.registerForm.grade).then(resp => {
             if (resp) {
               //存储token
               const tokenStr = resp.data;
               window.sessionStorage.setItem('tokenStr', tokenStr);
               //跳转
-              this.$router.replace('/student/home');
+              this.$router.replace('/student/login');
             }
           });
         } else {
@@ -162,11 +243,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .registerContainer {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 100px 600px auto;
+  margin: 200px 100px;
   width: 400px;
   padding: 15px 35px 15px 35px;
   background: rgba(255, 255, 255, 0.8);
@@ -175,6 +256,20 @@ export default {
   z-index: 1;
   position: absolute;
 }
+
+.registerContainer1 {
+  border-radius: 15px;
+  background-clip: padding-box;
+  margin: 50px 600px;
+  width: 400px;
+  padding: 15px 35px 15px 35px;
+  background: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(109, 101, 101, 0.8);
+  box-shadow: 0 0 25px #333131;
+  z-index: 1;
+  position: absolute;
+}
+
 
 .registerTitle {
   margin: 8px auto 40px auto;

@@ -18,7 +18,7 @@ axios.interceptors.request.use(confiq => {
 axios.interceptors.response.use(success => {
     //业务逻辑错误
     if (success.status && success.status == 200) {
-        if (success.data.code == 500 || success.data.code == 401 || success.data.code == 403) {
+        if (success.data.code == 500 || success.data.code == 401 || success.data.code == 403||success.data.code == 400) {
             Message.error({message: success.data.message});
             return;
         }
@@ -48,14 +48,75 @@ axios.interceptors.response.use(success => {
 let base = '';
 
 //传送json格式的post请求
-export const postRequest = (url, params1, params2) => {
+export const postLogin = (params1,params2,params3) => {
     return axios({
-        method: 'post',
-        url: '${base}${url}',
-        data: params1,params2
+        url: "http://localhost:8884/user/login",
+        method: "post",
+        data: {
+            account: params1,
+            password: params2,
+            whichpeople: params3
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
     })
 }
 
+export const postRegister = (params1,params2,params3,params4,params5,params6,params7,params8,params9) => {
+    return axios({
+        url: "http://localhost:8884/user/regist",
+        method: "post",
+        data: {
+            email:params1,
+            whichpeople: params2,
+            account:params3,
+            password:params4,
+            code:params5,
+            studentid:params6,
+            stu_name:params7,
+            sex:params8,
+            grade:params9,
+            college:"",
+            class_:"",
+            tutor_name:"",
+            dormitory:"",
+            nativeplace:"",
+            address:"",
+            phone:"",
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
+export const postEmail = (params1,params2) => {
+    return axios({
+        url: "http://localhost:8884/user/sendRegistEmail",
+        method: "post",
+        data: {
+            email:params1,
+            whichPeople: params2,
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
+export const postFind = (params1) => {
+    return axios({
+        url: "http://localhost:8884/user/findPassword",
+        method: "post",
+        data: {
+            email:params1,
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
 //传送json的put请求
 export const putRequest = (url, params) => {
     return axios({
@@ -66,11 +127,17 @@ export const putRequest = (url, params) => {
 }
 
 //传送json的get请求
-export const getRequest = (url, params) => {
+export const getAdmin = (params1,params2) => {
     return axios({
-        method: 'get',
-        url: '${base}${url}',
-        data: params
+        url: "http://localhost:8884/user/getUser",
+        method: "post",
+        data: {
+            whichpeople:params1,
+            account:params2
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
     })
 }
 
