@@ -187,7 +187,8 @@ export default {
           this.user2.dormitory,this.user2.nativeplace,this.user2.address,this.user2.phone).then(resp => {
         if (resp) {
           this.dialogVisible = false;
-          this.$router.replace("student/home")
+          localStorage.setItem("uid",this.user2.account);
+          this.initAdmin();
         }
       });
     }
