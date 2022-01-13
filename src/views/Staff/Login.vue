@@ -77,7 +77,7 @@ export default {
               const tokenStr = resp.data;
               window.sessionStorage.setItem('tokenStr', tokenStr);
               localStorage.setItem("uid",this.LoginForm.user);
-              this.$router.replace('/staff/home');
+              this.$router.replace('/staff/personalcenter');
               //跳转
 
             }

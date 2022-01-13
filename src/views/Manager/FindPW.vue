@@ -22,10 +22,10 @@
 </template>
 <script>
 
-import {postFind, postRequest} from "@/utils/axiosApi";
+import {postFind} from "@/utils/axiosApi";
 
 export default {
-  name: "ManagerFindPW",
+  name: "Manager_FindPW",
   components: {},
   data() {
 
@@ -59,7 +59,7 @@ export default {
     emailForm(findForm) {
       this.$refs.findForm.validate((valid) => {
         if (valid) {
-          postFind(this.findForm.email).then(resp => {
+          postFind( this.findForm.email).then(resp => {
             if (resp) {
               alert('密码已发送至邮箱');
             }

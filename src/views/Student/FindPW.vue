@@ -22,7 +22,7 @@
 </template>
 <script>
 
-import {postFind, postRequest} from "@/utils/axiosApi";
+import {postFind} from "@/utils/axiosApi";
 
 export default {
   name: "Student_FindPW",

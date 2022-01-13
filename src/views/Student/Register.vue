@@ -223,9 +223,6 @@ export default {
           postRegister(this.registerForm.email,0,this.registerForm.account,this.registerForm.password
           ,this.registerForm.code,this.registerForm.studentid,this.registerForm.stu_name,this.registerForm.sex,this.registerForm.grade).then(resp => {
             if (resp) {
-              //存储token
-              const tokenStr = resp.data;
-              window.sessionStorage.setItem('tokenStr', tokenStr);
               //跳转
               this.$router.replace('/student/login');
             }

@@ -134,7 +134,7 @@ export default {
         password:"",
         code:"",
         managerid:"",
-        phone:"19814200063",
+        phone:"",
         checkPass: ""
       },
       rules: {
@@ -185,11 +185,8 @@ export default {
           postRegister2(this.registerForm.email,2,this.registerForm.account,this.registerForm.password
               ,this.registerForm.code,this.registerForm.managerid,this.registerForm.phone).then(resp => {
             if (resp) {
-              //存储token
-              const tokenStr = resp.data;
-              window.sessionStorage.setItem('tokenStr', tokenStr);
               //跳转
-              this.$router.replace('/manager/home');
+              this.$router.replace('/manager/login');
             }
           });
         } else {

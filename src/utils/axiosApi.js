@@ -231,7 +231,7 @@ export const postAdmin1 = (params1,params2,params3,params4,params5,params6,param
     })
 }
 //修改管理员信息
-export const postAdmin2 = (params1,params2,params3,params4,params5,params6,params7) => {
+export const postAdmin2 = (params1,params2,params3,params4,params5,params6) => {
     return axios({
         url: "http://localhost:8884/user/updateUser",
         method: "post",
@@ -240,9 +240,8 @@ export const postAdmin2 = (params1,params2,params3,params4,params5,params6,param
             email:params2,
             account:params3,
             password:params4,
-            code:params5,
-            managerid:params6,
-            phone:params7,
+            managerid:params5,
+            phone:params6,
         },
         header: {
             "Content-Type": "application/json",
@@ -286,6 +285,21 @@ export const deleteAdmin2 = (params1,params2) => {
         data: {
             whichpeople: params1,
             managerid:params2
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
+export const newPass = (params1,params2,params3) => {
+    return axios({
+        url: "http://localhost:8884/user/changePassword",
+        method: "post",
+        data: {
+            email:params1,
+            password:params2,
+            newPassword:params3
         },
         header: {
             "Content-Type": "application/json",
