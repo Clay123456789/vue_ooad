@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1 class="title">疫情防控通（学生端）</h1>
+    <h1 class="title">疫情防控通（教师端）</h1>
     <div class="background">
       <img :src="imgSrc" width="100%" height="100%" alt=""/>
     </div>
@@ -24,27 +24,16 @@
     <div>
       <el-form :model="registerForm" status-icon :rules="rules" ref="registerForm" label-width="70px"
                class="registerContainer1">
-        <el-form-item  label="学号" prop="studentid">
-          <el-input type="text" v-model="registerForm.studentid" placeholder="请输入学号" ></el-input>
+        <el-form-item  label="学号" prop="staffid">
+          <el-input type="text" v-model="registerForm.staffid" placeholder="请输入学号" ></el-input>
         </el-form-item>
-        <el-form-item  label="姓名" prop="stu_name">
-          <el-input type="text" v-model="registerForm.stu_name" placeholder="请输入姓名" ></el-input>
+        <el-form-item  label="姓名" prop="sta_name">
+          <el-input type="text" v-model="registerForm.sta_name" placeholder="请输入姓名" ></el-input>
         </el-form-item>
         <el-form-item label="性别" prop="sex">
           <el-select v-model="registerForm.sex" placeholder="性别">
             <el-option label="男" value="male"></el-option>
             <el-option label="女" value="female"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="年级" prop="grade">
-          <el-select v-model="registerForm.grade" placeholder="年级">
-            <el-option label="大一" value="大一"></el-option>
-            <el-option label="大二" value="大二"></el-option>
-            <el-option label="大三" value="大三"></el-option>
-            <el-option label="大四" value="大四"></el-option>
-            <el-option label="研一" value="研一"></el-option>
-            <el-option label="研二" value="研二"></el-option>
-            <el-option label="研三" value="研三"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item  label="密码" prop="password">
@@ -57,7 +46,7 @@
           <el-button style=" width: 100px" type="primary" @click="submitForm('registerForm')">提交</el-button>
           <el-button style="margin-left:50px; width: 100px" @click="resetForm('registerForm')">重置</el-button>
         </el-form-item>
-        <el-link :underline="false" style="margin-bottom:30px; float: right" class="header link" href="/student/login">
+        <el-link :underline="false" style="margin-bottom:30px; float: right" class="header link" href="/staff/login">
           已有帐号,去登录
         </el-link>
       </el-form>
@@ -67,10 +56,10 @@
 
 <script>
 
-import {postEmail, postRegister, postRequest} from "@/utils/axiosApi";
+import {postEmail, postRegister, postRegister1, postRequest} from "@/utils/axiosApi";
 
 export default {
-  name: "student_Register",
+  name: "staff_Register",
   components: {},
   data() {
 
@@ -122,12 +111,6 @@ export default {
       } else {
         callback();
       }
-    };var validateGrade = (rule, value, callback) => {
-      if (value === '') {
-        callback(new Error('年级不能为空'));
-      } else {
-        callback();
-      }
     };
 
     var validatePass = (rule, value, callback) => {
@@ -156,14 +139,11 @@ export default {
         account:"",
         password:"",
         code:"",
-        studentid:"",
-        stu_name:"",
+        staffid:"",
+        sta_name:"",
         sex:"",
-        grade:"",
         college:"信通",
-        class_:"2019211505",
-        tutor_name:"辅导员",
-        dormitory:"学六",
+        department:"",
         nativeplace:"青海",
         address:"XXX",
         phone:"19814200063",
@@ -173,13 +153,10 @@ export default {
         sex: [
           {validator: validateSex, trigger: 'blur'}
         ],
-        grade: [
-          {validator: validateGrade, trigger: 'blur'}
-        ],
-        studentid: [
+        staffid: [
           {validator: validateSid, trigger: 'blur'}
         ],
-        stu_name: [
+        sta_name: [
           {validator: validateSname, trigger: 'blur'}
         ],
         account: [
@@ -206,7 +183,7 @@ export default {
       this.$refs.registerForm.validate((valid) => {
         const reg = /^([a-zA-Z0-9]+[-_.]?)+@[a-zA-Z0-9]+.[a-z]+.[a-z]*$/;
         if (reg.test(this.registerForm.email)) {
-          postEmail(this.registerForm.email,0).then(resp => {
+          postEmail(this.registerForm.email,1).then(resp => {
             if (resp) {
               alert('验证码发送成功');
             }
@@ -220,14 +197,14 @@ export default {
     submitForm(registerForm) {
       this.$refs.registerForm.validate((valid) => {
         if (valid) {
-          postRegister(this.registerForm.email,0,this.registerForm.account,this.registerForm.password
-              ,this.registerForm.code,this.registerForm.studentid,this.registerForm.stu_name,this.registerForm.sex,this.registerForm.grade).then(resp => {
+          postRegister1(this.registerForm.email,1,this.registerForm.account,this.registerForm.password
+              ,this.registerForm.code,this.registerForm.staffid,this.registerForm.sta_name,this.registerForm.sex).then(resp => {
             if (resp) {
               //存储token
               const tokenStr = resp.data;
               window.sessionStorage.setItem('tokenStr', tokenStr);
               //跳转
-              this.$router.replace('/student/home');
+              this.$router.replace('/staff/home');
             }
           });
         } else {
@@ -260,7 +237,7 @@ export default {
 .registerContainer1 {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 50px 600px;
+  margin: 80px 600px;
   width: 400px;
   padding: 15px 35px 15px 35px;
   background: rgba(255, 255, 255, 0.8);

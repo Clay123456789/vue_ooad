@@ -47,7 +47,7 @@ axios.interceptors.response.use(success => {
 
 let base = '';
 
-//传送json格式的post请求
+//登录请求
 export const postLogin = (params1,params2,params3) => {
     return axios({
         url: "http://localhost:8884/user/login",
@@ -63,6 +63,7 @@ export const postLogin = (params1,params2,params3) => {
     })
 }
 
+//学生注册
 export const postRegister = (params1,params2,params3,params4,params5,params6,params7,params8,params9) => {
     return axios({
         url: "http://localhost:8884/user/regist",
@@ -90,7 +91,51 @@ export const postRegister = (params1,params2,params3,params4,params5,params6,par
         },
     })
 }
-
+//教职工注册
+export const postRegister1 = (params1,params2,params3,params4,params5,params6,params7,params8) => {
+    return axios({
+        url: "http://localhost:8884/user/regist",
+        method: "post",
+        data: {
+            email:params1,
+            whichpeople: params2,
+            account:params3,
+            password:params4,
+            code:params5,
+            staffid:params6,
+            sta_name:params7,
+            sex:params8,
+            college:"",
+            department:"",
+            nativeplace:"",
+            address:"",
+            phone:"",
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+//管理员注册
+export const postRegister2 = (params1,params2,params3,params4,params5,params6,params7) => {
+    return axios({
+        url: "http://localhost:8884/user/regist",
+        method: "post",
+        data: {
+            email:params1,
+            whichpeople: params2,
+            account:params3,
+            password:params4,
+            code:params5,
+            managerid:params6,
+            phone:params7,
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+//传送邮箱验证码
 export const postEmail = (params1,params2) => {
     return axios({
         url: "http://localhost:8884/user/sendRegistEmail",
@@ -105,6 +150,7 @@ export const postEmail = (params1,params2) => {
     })
 }
 
+//找回密码
 export const postFind = (params1) => {
     return axios({
         url: "http://localhost:8884/user/findPassword",
@@ -117,16 +163,9 @@ export const postFind = (params1) => {
         },
     })
 }
-//传送json的put请求
-export const putRequest = (url, params) => {
-    return axios({
-        method: 'put',
-        url: '${base}${url}',
-        data: params
-    })
-}
 
-//传送json的get请求
+
+//获取用户信息
 export const getAdmin = (params1,params2) => {
     return axios({
         url: "http://localhost:8884/user/getUser",
@@ -140,12 +179,116 @@ export const getAdmin = (params1,params2) => {
         },
     })
 }
-
-//传送json的delete请求
-export const deleteRequest = (url, params) => {
+//修改学生信息
+export const postAdmin = (params1,params2,params3,params4,params5,params6,params7,params8,params9,params10,params11,params12,params13,params14,params15) => {
     return axios({
-        method: 'delete',
-        url: '${base}${url}',
-        data: params
+        url: "http://localhost:8884/user/updateUser",
+        method: "post",
+        data: {
+            whichpeople:params1,
+            email:params2,
+            account:params3,
+            password:params4,
+            studentid:params5,
+            stu_name:params6,
+            sex:params7,
+            grade:params8,
+            college:params9,
+            class_:params10,
+            tutor_name:params11,
+            dormitory:params12,
+            nativeplace:params13,
+            address:params14,
+            phone:params15,
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+//修改教师信息
+export const postAdmin1 = (params1,params2,params3,params4,params5,params6,params7,params8,params9,params10,params11,params12) => {
+    return axios({
+        url: "http://localhost:8884/user/updateUser",
+        method: "post",
+        data: {
+            whichpeople: params1,
+            email:params2,
+            account:params3,
+            password:params4,
+            staffid:params5,
+            sta_name:params6,
+            sex:params7,
+            college:params8,
+            department:params9,
+            nativeplace:params10,
+            address:params11,
+            phone:params12,
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+//修改管理员信息
+export const postAdmin2 = (params1,params2,params3,params4,params5,params6,params7) => {
+    return axios({
+        url: "http://localhost:8884/user/updateUser",
+        method: "post",
+        data: {
+            whichpeople: params1,
+            email:params2,
+            account:params3,
+            password:params4,
+            code:params5,
+            managerid:params6,
+            phone:params7,
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
+//删除学生信息
+export const deleteAdmin = (params1,params2) => {
+    return axios({
+        url: "http://localhost:8884/user/deleteUser",
+        method: "post",
+        data: {
+            whichpeople: params1,
+            studentid:params2
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+//老师
+export const deleteAdmin1 = (params1,params2) => {
+    return axios({
+        url: "http://localhost:8884/user/deleteUser",
+        method: "post",
+        data: {
+            whichpeople: params1,
+            staffid:params2
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+//管理员
+export const deleteAdmin2 = (params1,params2) => {
+    return axios({
+        url: "http://localhost:8884/user/deleteUser",
+        method: "post",
+        data: {
+            whichpeople: params1,
+            managerid:params2
+        },
+        header: {
+            "Content-Type": "application/json",
+        },
     })
 }

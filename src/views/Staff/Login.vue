@@ -5,9 +5,6 @@
       <img :src="imgSrc" width="100%" height="100%" alt=""/>
     </div>
     <div>
-      <a class="header link" style="float: left" href="/staff/home">登录</a>
-    </div>
-    <div>
       <el-form :model="LoginForm" status-icon :rules="rules" ref="LoginForm" label-width="50px"
                class="registerContainer">
         <h3 class="LoginTitle">登录</h3>

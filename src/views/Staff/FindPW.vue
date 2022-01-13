@@ -22,10 +22,10 @@
 </template>
 <script>
 
-import {postRequest} from "@/utils/axiosApi";
+import {postFind, postRequest} from "@/utils/axiosApi";
 
 export default {
-  name: "Staff_FindPW",
+  name: "Student_FindPW",
   components: {},
   data() {
 
@@ -59,7 +59,7 @@ export default {
     emailForm(findForm) {
       this.$refs.findForm.validate((valid) => {
         if (valid) {
-          postRequest('/user/findPassword', this.findForm.email).then(resp => {
+          postFind( this.findForm.email).then(resp => {
             if (resp) {
               alert('密码已发送至邮箱');
             }
@@ -71,7 +71,7 @@ export default {
       });
     },
     submitForm(findForm) {
-      this.$router.replace('/staff/login');
+      this.$router.replace('/student/login');
     }
   }
 }
