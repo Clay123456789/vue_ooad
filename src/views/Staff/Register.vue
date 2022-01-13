@@ -200,11 +200,8 @@ export default {
           postRegister1(this.registerForm.email,1,this.registerForm.account,this.registerForm.password
               ,this.registerForm.code,this.registerForm.staffid,this.registerForm.sta_name,this.registerForm.sex).then(resp => {
             if (resp) {
-              //存储token
-              const tokenStr = resp.data;
-              window.sessionStorage.setItem('tokenStr', tokenStr);
               //跳转
-              this.$router.replace('/staff/home');
+              this.$router.replace('/staff/login');
             }
           });
         } else {

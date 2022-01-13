@@ -22,10 +22,10 @@
 </template>
 <script>
 
-import {postFind, postRequest} from "@/utils/axiosApi";
+import {postFind} from "@/utils/axiosApi";
 
 export default {
-  name: "Student_FindPW",
+  name: "Staff_FindPW",
   components: {},
   data() {
 
@@ -71,7 +71,7 @@ export default {
       });
     },
     submitForm(findForm) {
-      this.$router.replace('/student/login');
+      this.$router.replace('/staff/login');
     }
   }
 }
